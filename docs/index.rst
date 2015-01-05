@@ -18,7 +18,7 @@ or alternatively if you have pip installed::
 Set Up
 ------
 
-Glue codes work properly once it's injected in the webpage::
+Glue codes are generated and managed through a ``JSGlue`` instance::
 
     from flask import Flask
     from flask_jsglue import JSGlue 
@@ -36,7 +36,7 @@ You may also set up your ``JSGlue`` instance later at configuration time using *
 Invoking **url_for()** at the front-end side
 --------------------------------------------------
 
-**url_for()** is commonly used through the whole application to prevent being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it's a diseaster to be not able to use **url_for()** at the front-end side. Especially when the endpoint rules are changed. Flask-JSGlue provides a client-side **url_for()**, which makes source codes look a lot charming.
+**url_for()** is commonly used through the whole application to prevent being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it's frustrating that you can't use **url_for()** at the front-end side. Especially when the routes are being frequently changed due to acitve development. Flask-JSGlue provides a client-side **url_for()**, which makes source codes dynamic, more charming.
 
 In **<head>**::
 
