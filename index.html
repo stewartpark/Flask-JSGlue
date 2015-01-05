@@ -71,7 +71,7 @@
 </div>
 <div class="section" id="invoking-url-for-at-the-front-end-side">
 <h2>Invoking <strong>url_for()</strong> at the front-end side<a class="headerlink" href="#invoking-url-for-at-the-front-end-side" title="Permalink to this headline">¶</a></h2>
-<p><strong>url_for()</strong> is commonly used through the whole application to prevent being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it&#8217;s a diseaster to be not able to use <strong>url_for()</strong> at the front-end side. Especially when the endpoint rules are changed. Flask-JSGlue provides a client-side <strong>url_for()</strong>, which makes source codes look a lot charming.</p>
+<p><strong>url_for()</strong> is commonly used through the whole application to prevent being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it&#8217;s frustrating that you can&#8217;t use <strong>url_for()</strong> at the front-end side. Especially when the routes are being frequently changed due to acitve development. Flask-JSGlue provides a client-side <strong>url_for()</strong>, which makes source codes dynamic, more charming.</p>
 <p>In <strong>&lt;head&gt;</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">JSGlue</span><span class="o">.</span><span class="n">include</span><span class="p">()</span> <span class="p">}}</span>
 </pre></div>
