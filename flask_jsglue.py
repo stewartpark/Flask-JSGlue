@@ -50,7 +50,7 @@ var %s = new (function(){ return {
             for(var i in this._endpoints) {
                 if(endpoint == this._endpoints[i][0]) {
                     url = ''; j = 0; has_everything = true;
-                    for(var j in this._endpoints[i][2]) {
+                    for(var j = 0; j < this._endpoints[i][2].length; j++) {
                         t = rule[this._endpoints[i][2][j]];
                         if(t == undefined) {
                             has_everything = false;
@@ -59,7 +59,10 @@ var %s = new (function(){ return {
                         url += this._endpoints[i][1][j] + t;
                     }
                     if(has_everything) {
-                        return url + this._endpoints[i][1][j];
+                        if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
+                            url += this._endpoints[i][1][j];
+                        console.log(j);
+                        return url;
                     }
                 }
             }                
