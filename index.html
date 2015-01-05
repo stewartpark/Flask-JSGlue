@@ -46,7 +46,7 @@
 <div class="highlight-python"><div class="highlight"><pre>$ easy_install Flask-JSGlue
 </pre></div>
 </div>
-<p>or alternatively if you have pip installed:</p>
+<p>Or alternatively if you have pip installed:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ pip install Flask-JSGlue
 </pre></div>
 </div>
@@ -70,8 +70,8 @@
 </div>
 </div>
 <div class="section" id="invoking-url-for-at-the-front-end-side">
-<h2>Invoking <strong>url_for()</strong> at the front-end side<a class="headerlink" href="#invoking-url-for-at-the-front-end-side" title="Permalink to this headline">¶</a></h2>
-<p><strong>url_for()</strong> is commonly used through the whole application to prevent being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it&#8217;s frustrating that you can&#8217;t use <strong>url_for()</strong> at the front-end side. Especially when the routes are being frequently changed due to acitve development. Flask-JSGlue provides a client-side <strong>url_for()</strong>, which makes source codes dynamic, more charming.</p>
+<h2>Invoking <strong>url_for()</strong> at the Front-end Side<a class="headerlink" href="#invoking-url-for-at-the-front-end-side" title="Permalink to this headline">¶</a></h2>
+<p><strong>url_for()</strong> is commonly used throughout the source code to prevent the application from being broken when routes are changed. Considering the fact that designing services in a RESTful manner is highly recommended nowadays, it&#8217;s frustrating that you can&#8217;t use <strong>url_for()</strong> at the front-end side &#8211; especially when the routes are being frequently changed due to acitve development. Flask-JSGlue provides a client-side <strong>url_for()</strong>, which makes source codes dynamic and more charming.</p>
 <p>In <strong>&lt;head&gt;</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">JSGlue</span><span class="o">.</span><span class="n">include</span><span class="p">()</span> <span class="p">}}</span>
 </pre></div>
@@ -88,7 +88,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">However, <a class="reference external" href="http://flask.pocoo.org/docs/0.10/patterns/jquery/#where-is-my-site">the Flask documentation</a> suggests that you just add a script tag to your webpage that has URLs. Perhaps you&#8217;re wondering if Flask-JSGlue&#8217;s approach is the right way of doing it, since it seems like the Flask documentation suggests the other simpler way. The answer is yes. Actually, it&#8217;s the same way as what the documentation suggests. it&#8217;s just a more sophisticated way of doing it than just adding a raw script tag.</p>
+<p class="last"><a class="reference external" href="http://flask.pocoo.org/docs/0.10/patterns/jquery/#where-is-my-site">The Flask documentation</a> suggests that you just add a script tag to your webpage that has URLs. Perhaps you&#8217;re wondering if Flask-JSGlue&#8217;s approach is the right way of doing it, since it seems like the Flask documentation suggests otherwise. The answer is yes. Actually, it&#8217;s the same way as what the documentation suggests. It&#8217;s just a more sophisticated way of doing it than just adding a raw script tag.</p>
 </div>
 </div>
 </div>
