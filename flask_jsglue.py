@@ -24,6 +24,7 @@ class JSGlue(object):
             self.init_app(app)
 
     def init_app(self, app):
+        self.app = app
         @app.route(JSGLUE_JS_PATH)
         def serve_js():
             return make_response(
