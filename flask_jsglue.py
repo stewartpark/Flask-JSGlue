@@ -61,7 +61,6 @@ var %s = new (function(){ return {
                     if(has_everything) {
                         if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
                             url += this._endpoints[i][1][j];
-                        console.log(j);
                         return url;
                     }
                 }
