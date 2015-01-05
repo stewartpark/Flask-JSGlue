@@ -51,7 +51,6 @@ var %s = new (function(){ return {
                     url = ''; j = 0; has_everything = true;
                     for(var j in this._endpoints[i][2]) {
                         t = rule[this._endpoints[i][2][j]];
-                        console.log(t);
                         if(t == undefined) {
                             has_everything = false;
                             break;
