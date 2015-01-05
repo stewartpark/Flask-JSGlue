@@ -11,7 +11,7 @@ from distutils.core import setup
 setup(
     name='Flask-JSGlue',
     version='0.1',
-    url='http://github.com/stewartpark/flask-jsglue',
+    url='http://stewartpark.github.com/Flask-JSGlue',
     license='BSD',
     author='Stewart Park',
     author_email='stewartpark92@gmail.com',
