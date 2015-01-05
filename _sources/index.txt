@@ -18,7 +18,7 @@ or alternatively if you have pip installed::
 Set Up
 ------
 
-Glue codes work properly once it's injected in the webpage::
+Glue codes are generated and managed through a ``JSGlue`` instance::
 
     from flask import Flask
     from flask_jsglue import JSGlue 
