@@ -9,10 +9,10 @@ splitter = re.compile(r'<.+?>')
 
 def get_routes(app):
     output = []
-    for rule in app.url_map.iter_rules():
-        endpoint = rule.endpoint
-        rule = str(rule)
-        rule_args = map(lambda x: x.split(':')[-1], rule_parser.findall(rule))
+    for r in app.url_map.iter_rules():
+        endpoint = r.endpoint
+        rule = r.rule
+        rule_args = [x.split(':')[-1] for x in rule_parser.findall(rule)]
         rule_tr = splitter.split(rule)
         output.append((endpoint, rule_tr, rule_args))
     return sorted(output, key=lambda x: len(x[1]), reverse=True)
@@ -36,8 +36,6 @@ class JSGlue(object):
 
     def generate_js(self):
         rules = get_routes(self.app)
-        for r in rules:
-            pass 
         return """
 var %s = new (function(){ return {
         // Internal data
