@@ -10,7 +10,7 @@ from distutils.core import setup
 
 setup(
     name='Flask-JSGlue',
-    version='0.1',
+    version='0.2',
     url='http://stewartpark.github.com/Flask-JSGlue',
     license='BSD',
     author='Stewart Park',
