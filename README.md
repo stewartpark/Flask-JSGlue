@@ -6,6 +6,6 @@ Flask-JSGlue
 Flask-JSGlue helps hook up your Flask application nicely with the front end.
 
 
-Tested: Python 2.7, 3.3, 3.4, and pypy
+Tested on Python 2.7, 3.3, 3.4, and PyPy.
 
 Homepage: http://stewartpark.github.io/Flask-JSGlue/
