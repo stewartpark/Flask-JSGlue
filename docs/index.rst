@@ -53,7 +53,7 @@ In your Javascript source code::
 
     Flask.url_for("api.hello_world", {"param1": 1, "param2": "text"})
 
-    Flask.url_for("api.external_link", {"_external": true})
+    Flask.url_for("api.external_link", {"_external": true, "_scheme": "https", "_anchor": "main"})
 
 .. warning::
 
