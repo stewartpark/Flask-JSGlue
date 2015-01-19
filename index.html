@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Flask-JSGlue &mdash; Flask-JSGlue 0.1 documentation</title>
+    <title>Flask-JSGlue &mdash; Flask-JSGlue 0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Flask-JSGlue 0.1 documentation" href="#" /> 
+    <link rel="top" title="Flask-JSGlue 0.3 documentation" href="#" /> 
   </head>
   <body role="document">
   
@@ -39,6 +39,7 @@
             
   <div class="section" id="flask-jsglue">
 <h1>Flask-JSGlue<a class="headerlink" href="#flask-jsglue" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/stewartpark/Flask-JSGlue"><img src="https://travis-ci.org/stewartpark/Flask-JSGlue.svg" /></a>
 <p>Flask-JSGlue helps hook up your Flask application nicely with the front end.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -77,9 +78,13 @@
 </pre></div>
 </div>
 <p>In your Javascript source code:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Flask</span><span class="o">.</span><span class="n">url_for</span><span class="p">(</span><span class="s">&quot;static&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;filename&quot;</span><span class="p">:</span> <span class="s">&quot;jquery.min.js&quot;</span><span class="p">})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Flask</span><span class="o">.</span><span class="n">url_for</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">)</span>
+
+<span class="n">Flask</span><span class="o">.</span><span class="n">url_for</span><span class="p">(</span><span class="s">&quot;static&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;filename&quot;</span><span class="p">:</span> <span class="s">&quot;jquery.min.js&quot;</span><span class="p">})</span>
 
 <span class="n">Flask</span><span class="o">.</span><span class="n">url_for</span><span class="p">(</span><span class="s">&quot;api.hello_world&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;param1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;param2&quot;</span><span class="p">:</span> <span class="s">&quot;text&quot;</span><span class="p">})</span>
+
+<span class="n">Flask</span><span class="o">.</span><span class="n">url_for</span><span class="p">(</span><span class="s">&quot;api.external_link&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;_external&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span> <span class="s">&quot;_scheme&quot;</span><span class="p">:</span> <span class="s">&quot;https&quot;</span><span class="p">,</span> <span class="s">&quot;_anchor&quot;</span><span class="p">:</span> <span class="s">&quot;main&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <div class="admonition warning">

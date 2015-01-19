@@ -1,6 +1,9 @@
 Flask-JSGlue
 =============
 
+.. image:: https://travis-ci.org/stewartpark/Flask-JSGlue.svg
+    :target: https://travis-ci.org/stewartpark/Flask-JSGlue
+
 Flask-JSGlue helps hook up your Flask application nicely with the front end.
 
 Installation
@@ -44,9 +47,13 @@ In **<head>**::
 
 In your Javascript source code::
 
+    Flask.url_for("index")
+
     Flask.url_for("static", {"filename": "jquery.min.js"})
 
     Flask.url_for("api.hello_world", {"param1": 1, "param2": "text"})
+
+    Flask.url_for("api.external_link", {"_external": true, "_scheme": "https", "_anchor": "main"})
 
 .. warning::
 
