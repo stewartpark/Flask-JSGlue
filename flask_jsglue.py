@@ -41,11 +41,31 @@ var %s = new (function(){ return {
         '_endpoints': %s,
         'url_for': function(endpoint, rule) {
             if(rule === undefined) rule = {};
-            var has_everything = false, url = "", is_absolute = false;
 
-            if(rule['_external'] !== undefined) {
+            var has_everything = false, url = "";
+            
+            var is_absolute = false, has_anchor = false, has_scheme;
+            var anchor = "", scheme = "";
+
+            if(rule['_external'] === true) {
                 is_absolute = true; 
+                scheme = location.protocol.split(':')[0];
                 delete rule['_external'];
+            }
+
+            if(rule['_scheme'] !== undefined) {
+                if(is_absolute) {
+                    scheme = rule['_scheme'];
+                    delete rule['_scheme'];
+                } else {
+                    throw {name:"ValueError", message:"_scheme is set without _external."};
+                }
+            }
+
+            if(rule['_anchor'] !== undefined) {
+                has_anchor = true;
+                anchor = rule['_anchor'];
+                delete rule['_anchor'];
             }
 
             for(var i in this._endpoints) {
@@ -62,8 +82,13 @@ var %s = new (function(){ return {
                     if(has_everything) {
                         if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
                             url += this._endpoints[i][1][j];
+
+                        if(has_anchor) {
+                            url += "#" + anchor;
+                        }
+
                         if(is_absolute) {
-                            return location.protocol + "//" + location.host + url;
+                            return scheme + "://" + location.host + url;
                         } else {
                             return url;
                         }
@@ -71,7 +96,7 @@ var %s = new (function(){ return {
                 }
             }                
 
-            throw("Couldn't find the matching endpoint.");
+            throw {name: 'BuildError', message: "Couldn't find the matching endpoint."};
         }
 };});""" % (JSGLUE_NAMESPACE, json.dumps(rules)) 
 

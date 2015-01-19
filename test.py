@@ -48,8 +48,13 @@ class FlaskJSGlueTestCase(unittest.TestCase):
 
     def test_url_for_6(self):
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_external': true}") == "http://localhost/"        
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': true}") == "http://localhost/test/hello"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': true, '_scheme': 'https'}") == "https://localhost/test/hello"        
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true}") == "http://localhost/1/data/9"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_anchor': 'test'}") == "/#test"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': false, '_anchor': 'hello'}") == "/test/hello#hello"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test'}") == "https://localhost/1/data/9#test"        
+
+
 
 
 if __name__ == '__main__':
