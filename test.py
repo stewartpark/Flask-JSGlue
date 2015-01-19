@@ -5,7 +5,7 @@ from flask_jsglue import JSGlue
 
 def runUrlFor(src, url_for):
     f = open('/tmp/test.js', 'w')
-    f.write(bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
+    f.write("location={host:'localhost',protocol:'http:'};" + bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
     f.close()
     return bytes.decode(subprocess.check_output('node /tmp/test.js', stderr=subprocess.STDOUT, shell=True)).strip()
 
@@ -45,6 +45,12 @@ class FlaskJSGlueTestCase(unittest.TestCase):
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1}") == "/1/data"        
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {b: 'hello'}") == "/hello/hello"        
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9}") == "/1/data/9"        
+
+    def test_url_for_6(self):
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_external': true}") == "http://localhost/"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': true}") == "http://localhost/test/hello"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true}") == "http://localhost/1/data/9"        
+
 
 if __name__ == '__main__':
     unittest.main()

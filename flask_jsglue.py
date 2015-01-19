@@ -38,12 +38,15 @@ class JSGlue(object):
         rules = get_routes(self.app)
         return """
 var %s = new (function(){ return {
-        // Internal data
         '_endpoints': %s,
-
-        // Public methods
         'url_for': function(endpoint, rule) {
-            var has_everything, url;
+            if(rule === undefined) rule = {};
+            var has_everything = false, url = "", is_absolute = false;
+
+            if(rule['_external'] !== undefined) {
+                is_absolute = true; 
+                delete rule['_external'];
+            }
 
             for(var i in this._endpoints) {
                 if(endpoint == this._endpoints[i][0]) {
@@ -59,7 +62,11 @@ var %s = new (function(){ return {
                     if(has_everything) {
                         if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
                             url += this._endpoints[i][1][j];
-                        return url;
+                        if(is_absolute) {
+                            return location.protocol + "//" + location.host + url;
+                        } else {
+                            return url;
+                        }
                     }
                 }
             }                
