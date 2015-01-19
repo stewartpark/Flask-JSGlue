@@ -27,7 +27,7 @@ class FlaskJSGlueTestCase(unittest.TestCase):
         self.client = self.app.test_client()
 
     def test_url_for_0(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {}") == "/"        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0'") == "/"        
 
     def test_url_for_1(self):
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case1', {a: 3}") == "/3"        

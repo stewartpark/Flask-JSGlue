@@ -47,9 +47,13 @@ In **<head>**::
 
 In your Javascript source code::
 
+    Flask.url_for("index")
+
     Flask.url_for("static", {"filename": "jquery.min.js"})
 
     Flask.url_for("api.hello_world", {"param1": 1, "param2": "text"})
+
+    Flask.url_for("api.external_link", {"_external": true})
 
 .. warning::
 
