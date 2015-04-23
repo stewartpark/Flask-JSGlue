@@ -1,7 +1,7 @@
 from flask import current_app, make_response
 from jinja2 import Markup
 import re, json
-   
+
 JSGLUE_JS_PATH = '/jsglue.js'
 JSGLUE_NAMESPACE = 'Flask'
 rule_parser = re.compile(r'<(.+?)>')
@@ -45,12 +45,12 @@ var %s = new (function(){
             if(typeof rule === "undefined") rule = {};
 
             var has_everything = false, url = "";
-            
+
             var is_absolute = false, has_anchor = false, has_scheme;
             var anchor = "", scheme = "";
 
             if(rule['_external'] === true) {
-                is_absolute = true; 
+                is_absolute = true;
                 scheme = location.protocol.split(':')[0];
                 delete rule['_external'];
             }
@@ -84,7 +84,7 @@ var %s = new (function(){
                         url += this._endpoints[i][1][j] + t;
                     }
                     if(has_everything) {
-                        if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
+                        if(this._endpoints[i][2].length != this._endpoints[i][1].length)
                             url += this._endpoints[i][1][j];
 
                         if(has_anchor) {
@@ -98,12 +98,12 @@ var %s = new (function(){
                         }
                     }
                 }
-            }                
+            }
 
             throw {name: 'BuildError', message: "Couldn't find the matching endpoint."};
         }
     };
-});""" % (JSGLUE_NAMESPACE, json.dumps(rules)) 
+});""" % (JSGLUE_NAMESPACE, json.dumps(rules))
 
     @staticmethod
     def include():
