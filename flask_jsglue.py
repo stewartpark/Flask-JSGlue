@@ -37,10 +37,12 @@ class JSGlue(object):
     def generate_js(self):
         rules = get_routes(self.app)
         return """
-var %s = new (function(){ return {
+var %s = new (function(){
+    'use strict';
+    return {
         '_endpoints': %s,
         'url_for': function(endpoint, rule) {
-            if(rule === undefined) rule = {};
+            if(typeof rule === "undefined") rule = {};
 
             var has_everything = false, url = "";
             
@@ -53,7 +55,7 @@ var %s = new (function(){ return {
                 delete rule['_external'];
             }
 
-            if(rule['_scheme'] !== undefined) {
+            if('_scheme' in rule) {
                 if(is_absolute) {
                     scheme = rule['_scheme'];
                     delete rule['_scheme'];
@@ -62,7 +64,7 @@ var %s = new (function(){ return {
                 }
             }
 
-            if(rule['_anchor'] !== undefined) {
+            if('_anchor' in rule) {
                 has_anchor = true;
                 anchor = rule['_anchor'];
                 delete rule['_anchor'];
@@ -70,10 +72,12 @@ var %s = new (function(){ return {
 
             for(var i in this._endpoints) {
                 if(endpoint == this._endpoints[i][0]) {
-                    url = ''; j = 0; has_everything = true;
+                    var url = '';
+                    var j = 0;
+                    var has_everything = true;
                     for(var j = 0; j < this._endpoints[i][2].length; j++) {
-                        t = rule[this._endpoints[i][2][j]];
-                        if(t == undefined) {
+                        var t = rule[this._endpoints[i][2][j]];
+                        if(typeof t === "undefined") {
                             has_everything = false;
                             break;
                         }
@@ -98,7 +102,8 @@ var %s = new (function(){ return {
 
             throw {name: 'BuildError', message: "Couldn't find the matching endpoint."};
         }
-};});""" % (JSGLUE_NAMESPACE, json.dumps(rules)) 
+    };
+});""" % (JSGLUE_NAMESPACE, json.dumps(rules)) 
 
     @staticmethod
     def include():
