@@ -107,4 +107,4 @@ var %s = new (function(){
 
     @staticmethod
     def include():
-        return Markup('<script src="%s" type="text/javascript"></script>' % (JSGLUE_JS_PATH, ))
+        return Markup('<script src="%s" type="text/javascript"></script>') % (JSGLUE_JS_PATH, )
