@@ -1,7 +1,7 @@
 from flask import current_app, make_response
 from jinja2 import Markup
 import re, json
-   
+
 JSGLUE_JS_PATH = '/jsglue.js'
 JSGLUE_NAMESPACE = 'Flask'
 rule_parser = re.compile(r'<(.+?)>')
@@ -37,23 +37,25 @@ class JSGlue(object):
     def generate_js(self):
         rules = get_routes(self.app)
         return """
-var %s = new (function(){ return {
+var %s = new (function(){
+    'use strict';
+    return {
         '_endpoints': %s,
         'url_for': function(endpoint, rule) {
-            if(rule === undefined) rule = {};
+            if(typeof rule === "undefined") rule = {};
 
             var has_everything = false, url = "";
-            
+
             var is_absolute = false, has_anchor = false, has_scheme;
             var anchor = "", scheme = "";
 
             if(rule['_external'] === true) {
-                is_absolute = true; 
+                is_absolute = true;
                 scheme = location.protocol.split(':')[0];
                 delete rule['_external'];
             }
 
-            if(rule['_scheme'] !== undefined) {
+            if('_scheme' in rule) {
                 if(is_absolute) {
                     scheme = rule['_scheme'];
                     delete rule['_scheme'];
@@ -62,7 +64,7 @@ var %s = new (function(){ return {
                 }
             }
 
-            if(rule['_anchor'] !== undefined) {
+            if('_anchor' in rule) {
                 has_anchor = true;
                 anchor = rule['_anchor'];
                 delete rule['_anchor'];
@@ -70,17 +72,19 @@ var %s = new (function(){ return {
 
             for(var i in this._endpoints) {
                 if(endpoint == this._endpoints[i][0]) {
-                    url = ''; j = 0; has_everything = true;
+                    var url = '';
+                    var j = 0;
+                    var has_everything = true;
                     for(var j = 0; j < this._endpoints[i][2].length; j++) {
-                        t = rule[this._endpoints[i][2][j]];
-                        if(t == undefined) {
+                        var t = rule[this._endpoints[i][2][j]];
+                        if(typeof t === "undefined") {
                             has_everything = false;
                             break;
                         }
                         url += this._endpoints[i][1][j] + t;
                     }
                     if(has_everything) {
-                        if(this._endpoints[i][2].length != this._endpoints[i][1].length) 
+                        if(this._endpoints[i][2].length != this._endpoints[i][1].length)
                             url += this._endpoints[i][1][j];
 
                         if(has_anchor) {
@@ -94,12 +98,13 @@ var %s = new (function(){ return {
                         }
                     }
                 }
-            }                
+            }
 
             throw {name: 'BuildError', message: "Couldn't find the matching endpoint."};
         }
-};});""" % (JSGLUE_NAMESPACE, json.dumps(rules)) 
+    };
+});""" % (JSGLUE_NAMESPACE, json.dumps(rules))
 
     @staticmethod
     def include():
-        return Markup('<script src="%s" type="text/javascript"></script>' % (JSGLUE_JS_PATH, ))
+        return Markup('<script src="%s" type="text/javascript"></script>') % (JSGLUE_JS_PATH, )

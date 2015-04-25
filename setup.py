@@ -6,7 +6,10 @@ Flask-JSGlue helps hook up your Flask application nicely with the front end.
 
 """
 
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(
     name='Flask-JSGlue',
