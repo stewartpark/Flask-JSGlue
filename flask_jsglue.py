@@ -1,4 +1,4 @@
-from flask import current_app, make_response
+from flask import current_app, make_response, url_for
 from jinja2 import Markup
 import re, json
 
@@ -107,4 +107,5 @@ var %s = new (function(){
 
     @staticmethod
     def include():
-        return Markup('<script src="%s" type="text/javascript"></script>') % (JSGLUE_JS_PATH, )
+        js_path = url_for('serve_js')
+        return Markup('<script src="%s" type="text/javascript"></script>') % (js_path, )
