@@ -7,6 +7,7 @@ JSGLUE_NAMESPACE = 'Flask'
 rule_parser = re.compile(r'<(.+?)>')
 splitter = re.compile(r'<.+?>')
 
+
 def get_routes(app):
     output = []
     for r in app.url_map.iter_rules():
@@ -17,6 +18,7 @@ def get_routes(app):
         output.append((endpoint, rule_tr, rule_args))
     return sorted(output, key=lambda x: len(x[1]), reverse=True)
 
+
 class JSGlue(object):
     def __init__(self, app=None, **kwargs):
         self.app = app
@@ -25,11 +27,13 @@ class JSGlue(object):
 
     def init_app(self, app):
         self.app = app
+
         @app.route(JSGLUE_JS_PATH)
         def serve_js():
             return make_response(
                 (self.generate_js(), 200, {'Content-Type': 'text/javascript'})
             )
+
         @app.context_processor
         def context_processor():
             return {'JSGlue': JSGlue}
@@ -75,6 +79,7 @@ var %s = new (function(){
                     var url = '';
                     var j = 0;
                     var has_everything = true;
+                    var used = {};
                     for(var j = 0; j < this._endpoints[i][2].length; j++) {
                         var t = rule[this._endpoints[i][2][j]];
                         if(typeof t === "undefined") {
@@ -82,11 +87,24 @@ var %s = new (function(){
                             break;
                         }
                         url += this._endpoints[i][1][j] + t;
+                        used[this._endpoints[i][2][j]] = true;
                     }
                     if(has_everything) {
                         if(this._endpoints[i][2].length != this._endpoints[i][1].length)
                             url += this._endpoints[i][1][j];
 
+                        var first = true;
+                        for(var r in rule) {
+                            if(r[0] != '_' && !(r in used)) {
+                                if(first) {
+                                    url += '?';
+                                    first = false;
+                                } else {
+                                    url += '&';
+                                }
+                                url += r + '=' + rule[r];
+                            }
+                        }
                         if(has_anchor) {
                             url += "#" + anchor;
                         }
@@ -108,4 +126,4 @@ var %s = new (function(){
     @staticmethod
     def include():
         js_path = url_for('serve_js')
-        return Markup('<script src="%s" type="text/javascript"></script>') % (js_path, )
+        return Markup('<script src="%s" type="text/javascript"></script>') % (js_path,)
