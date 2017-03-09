@@ -12,7 +12,8 @@ def get_routes(app):
     output = []
     for r in app.url_map.iter_rules():
         endpoint = r.endpoint
-        rule = r.rule
+        rule = '{root}{rule}'.format(root=app.config['APPLICATION_ROOT'], rule=r.rule) if app.config[
+            'APPLICATION_ROOT'] else r.rule
         rule_args = [x.split(':')[-1] for x in rule_parser.findall(rule)]
         rule_tr = splitter.split(rule)
         output.append((endpoint, rule_tr, rule_args))
