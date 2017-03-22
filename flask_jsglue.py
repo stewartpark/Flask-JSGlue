@@ -1,6 +1,4 @@
-from flask import render_template
-from flask import make_response
-from flask import url_for
+from flask import current_app, make_response, url_for
 from jinja2 import Markup
 import re
 import json
