@@ -61,7 +61,11 @@ class FlaskJSGlueTestCase(unittest.TestCase):
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_external': true, unknown: 'yes'}") == "http://localhost/?unknown=yes"
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test', unknown: 'yes'}") == "https://localhost/1/data/9?unknown=yes#test"
 
-
-
+    def test_url_for_app_root(self):
+        self.app.config['APPLICATION_ROOT'] = '/root'
+        
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0'") == '/root/'
+        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello'}") == "/root/test/hello"
+            
 if __name__ == '__main__':
     unittest.main()
