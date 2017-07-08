@@ -66,7 +66,7 @@ var {{ namespace }} = new(function () {
                 } else {
                   url += '&';
                 }
-                url += r + '=' + rule[r];
+                url += r + '=' + encodeURI(rule[r]);
               }
             }
             if (has_anchor) {
