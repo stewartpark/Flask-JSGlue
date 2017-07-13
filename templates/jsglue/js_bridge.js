@@ -4,6 +4,10 @@ var {{ namespace }} = new(function () {
     '_endpoints': {{ rules|safe }},
     'url_for': function (endpoint, rule) {
       if (typeof rule === "undefined") rule = {};
+      else if (typeof(rule) !== "object") {
+        // rule *must* be an Object, anything else is wrong
+        throw {name: "ValueError", message: "type for 'rule' must be Object, got: " + typeof(rule)};
+      }
 
       var has_everything = false,
         url = "";
