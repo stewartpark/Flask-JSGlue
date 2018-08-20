@@ -88,7 +88,7 @@ var {{ namespace }} = new(function () {
 
       throw {
         name: 'BuildError',
-        message: "Couldn't find the matching endpoint."
+        message: "Endpoint '" + endpoint + "' does not exist or you have passed incorrect parameters " + JSON.stringify(rule)
       };
     }
   };
