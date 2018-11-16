@@ -80,7 +80,7 @@ var {{ namespace }} = new(function () {
             if (is_absolute) {
               return scheme + "://" + location.host + url;
             } else {
-              return url;
+              return encodeURI(url);
             }
           }
         }
