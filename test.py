@@ -3,18 +3,23 @@ import unittest
 import subprocess
 from flask_jsglue import JSGlue
 
+
 def runUrlFor(src, url_for):
     f = open('/tmp/test.js', 'w')
-    f.write("location={host:'localhost',protocol:'http:'};" + bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
+    f.write("location={host:'localhost',protocol:'http:'};" +
+            bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
     f.close()
     return bytes.decode(subprocess.check_output('node /tmp/test.js', stderr=subprocess.STDOUT, shell=True)).strip()
+
 
 class FlaskJSGlueTestCase(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         self.jsglue = JSGlue(self.app)
 
-        handler = lambda: "ok"
+        def handler():
+            return "ok"
+
         self.app.add_url_rule('/', 'case0', handler)
         self.app.add_url_rule('/<a>', 'case1', handler)
         self.app.add_url_rule('/test/<a>', 'case2', handler)
@@ -30,42 +35,63 @@ class FlaskJSGlueTestCase(unittest.TestCase):
         assert runUrlFor(self.client.get('/jsglue.js').data, "'case0'") == "/"
 
     def test_url_for_1(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case1', {a: 3}") == "/3"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case1', {a: 3}") == "/3"
 
     def test_url_for_2(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello'}") == "/test/hello"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case2', {a: 'hello'}") == "/test/hello"
 
     def test_url_for_3(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case3', {a: 00000}") == "/0/test"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case3', {a: 00000}") == "/0/test"
 
     def test_url_for_4(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case4', {a: 1, b: 9}") == "/1/9"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case4', {a: 1, b: 9}") == "/1/9"
 
     def test_url_for_5(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1}") == "/1/data"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {b: 'hello'}") == "/hello/hello"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9}") == "/1/data/9"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {a: 1}") == "/1/data"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {b: 'hello'}") == "/hello/hello"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {a: 1, b: 9}") == "/1/data/9"
 
     def test_url_for_6(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_external': true}") == "http://localhost/"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': true, '_scheme': 'https'}") == "https://localhost/test/hello"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true}") == "http://localhost/1/data/9"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_anchor': 'test'}") == "/#test"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello', '_external': false, '_anchor': 'hello'}") == "/test/hello#hello"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test'}") == "https://localhost/1/data/9#test"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case0', {'_external': true}") == "http://localhost/"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case2', {a: 'hello', '_external': true, '_scheme': 'https'}") == "https://localhost/test/hello"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {a: 1, b: 9, '_external': true}") == "http://localhost/1/data/9"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case0', {'_anchor': 'test'}") == "/#test"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case2', {a: 'hello', '_external': false, '_anchor': 'hello'}") == "/test/hello#hello"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test'}") == "https://localhost/1/data/9#test"
 
     def test_url_for_unknown_parameters(self):
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {unknown: 'yes'}") == "/?unknown=yes"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {unknown1: 'yes', unknown2: 'no'}") == "/?unknown1=yes&unknown2=no"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case1', {a: 3, unknown: 'yes'}") == "/3?unknown=yes"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0', {'_external': true, unknown: 'yes'}") == "http://localhost/?unknown=yes"
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test', unknown: 'yes'}") == "https://localhost/1/data/9?unknown=yes#test"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case0', {unknown: 'yes'}") == "/?unknown=yes"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case0', {unknown1: 'yes', unknown2: 'no'}") == "/?unknown1=yes&unknown2=no"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case1', {a: 3, unknown: 'yes'}") == "/3?unknown=yes"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case0', {'_external': true, unknown: 'yes'}") == "http://localhost/?unknown=yes"
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case5', {a: 1, b: 9, '_external': true, '_scheme': 'https', '_anchor': 'test', unknown: 'yes'}") == "https://localhost/1/data/9?unknown=yes#test"
 
     def test_url_for_app_root(self):
         self.app.config['APPLICATION_ROOT'] = '/root'
-        
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case0'") == '/root/'
-        assert runUrlFor(self.client.get('/jsglue.js').data, "'case2', {a: 'hello'}") == "/root/test/hello"
-            
+
+        assert runUrlFor(self.client.get(
+            '/jsglue.js').data, "'case0'") == '/root/'
+        assert runUrlFor(self.client.get('/jsglue.js').data,
+                         "'case2', {a: 'hello'}") == "/root/test/hello"
+
+
 if __name__ == '__main__':
     unittest.main()
