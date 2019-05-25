@@ -61,5 +61,5 @@ class JSGlue(object):
         js_path = url_for('serve_js')
         return Markup('<script %s src="%s" type="text/javascript"></script>') % (
             'defer' if defer else ''
-            js_path,
+            js_path
         )
