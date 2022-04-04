@@ -1,7 +1,9 @@
-from flask import render_template
 from flask import make_response
+from flask import render_template
 from flask import url_for
-from jinja2 import Markup
+
+from markupsafe import Markup
+
 import re
 import json
 
